@@ -1,4 +1,3 @@
-// src/components/FormList.js
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -10,50 +9,51 @@ import {
   Button,
   Backdrop,
   Card,
+  CircularProgress,
 } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+import axios from "axios";
+
 const FormList = () => {
   const [formTemplates, setFormTemplates] = useState([]);
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setOpen(true);
-      const storedTemplates = localStorage.getItem("formTemplates");
-      if (storedTemplates) {
-        setFormTemplates(JSON.parse(storedTemplates));
+    const fetchForms = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          "https://form-generator-zeta.vercel.app/forms",
+        );
+        setFormTemplates(res.data);
+      } catch (error) {
+        console.error("Error fetching forms", error);
       }
-      setOpen(false);
-    }, 1000);
+      setLoading(false);
+    };
 
-    return () => clearTimeout(timer);
+    fetchForms();
   }, []);
 
   return (
     <Box sx={{ mt: 4 }}>
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={open}
-        onClick={handleClose}
+        open={loading}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {formTemplates?.length > 0 ? (
+      {!loading && formTemplates.length > 0 ? (
         <>
           <Typography variant="h4">Form Templates</Typography>
-          <Card elevation={2} sx={{ m: 2 }}>
-            <List>
-              {formTemplates.map((form) => (
-                <ListItem
-                  key={form._id}
-                  sx={{ mt: 2 }}
-                  button
-                  onClick={() => navigate(`/form/${form._id}`)}
-                >
+          <List>
+            {formTemplates.map((form) => (
+              <Card
+                key={form._id}
+                elevation={2}
+                sx={{ mb: 2, border: "1px solid #f0f0f0" }}
+              >
+                <ListItem button onClick={() => navigate(`/form/${form._id}`)}>
                   <ListItemText
                     primary={form.title}
                     secondary={
@@ -70,16 +70,20 @@ const FormList = () => {
                     }
                   />
                 </ListItem>
-              ))}
-            </List>
-          </Card>
+              </Card>
+            ))}
+          </List>
         </>
       ) : (
         <>
-          <Typography>No templates generated yet</Typography>
-          <Button variant="contained" component={Link} to={`/create`}>
-            Create now
-          </Button>
+          {!loading && (
+            <>
+              <Typography>No templates generated yet</Typography>
+              <Button variant="contained" component={Link} to={`/create`}>
+                Create now
+              </Button>
+            </>
+          )}
         </>
       )}
     </Box>
