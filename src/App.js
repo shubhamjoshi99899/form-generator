@@ -1,12 +1,10 @@
 // src/App.js
 import React from "react";
 import {
-  Routes,
-  Route,
-  Switch,
   createBrowserRouter,
   RouterProvider,
   Link,
+  useRoutes,
 } from "react-router-dom";
 import {
   Container,
@@ -54,10 +52,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/prefill/:formId",
+    path: "/response/:formId",
     element: (
       <div>
-        <DisplayResponses />
+        <FormResponse />
       </div>
     ),
   },
@@ -75,29 +73,11 @@ const App = () => {
     <>
       <CssBaseline />
 
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Forms
-          </Typography>
-          <Button color="inherit" href="/">
-            Home
-          </Button>
-          <Button color="inherit" href="/create">
-            Create Form
-          </Button>
-          <Button color="inherit" href="/responses">
-            Responses
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Container>
-        <RouterProvider router={router} />
-        {/* 
+      <RouterProvider router={router} />
+      {/* 
         <Route path="/" exact component={FormList} />
         <Route path="/create" component={FormBuilder} />
         <Route path="/form/:formId" component={FormResponse} /> */}
-      </Container>
     </>
   );
 };

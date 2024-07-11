@@ -10,8 +10,10 @@ import {
   Backdrop,
   Card,
   CircularProgress,
+  Container,
 } from "@mui/material";
 import axios from "axios";
+import AppBarComponent from "./AppBar";
 
 const FormList = () => {
   const [formTemplates, setFormTemplates] = useState([]);
@@ -36,57 +38,65 @@ const FormList = () => {
   }, []);
 
   return (
-    <Box sx={{ mt: 4 }}>
-      <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={loading}
-      >
-        <CircularProgress color="inherit" />
-      </Backdrop>
-      {!loading && formTemplates.length > 0 ? (
-        <>
-          <Typography variant="h4">Form Templates</Typography>
-          <List>
-            {formTemplates.map((form) => (
-              <Card
-                key={form._id}
-                elevation={2}
-                sx={{ mb: 2, border: "1px solid #f0f0f0" }}
-              >
-                <ListItem button onClick={() => navigate(`/form/${form._id}`)}>
-                  <ListItemText
-                    primary={form.title}
-                    secondary={
-                      <>
-                        <Typography>{form.description}</Typography>
-                        <ul>
-                          {form.fields.map((field, index) => (
-                            <li key={index}>
-                              {field.label} ({field.type})
-                            </li>
-                          ))}
-                        </ul>
-                      </>
-                    }
-                  />
-                </ListItem>
-              </Card>
-            ))}
-          </List>
-        </>
-      ) : (
-        <>
-          {!loading && (
+    <>
+      <AppBarComponent />
+      <Container maxWidth="lg">
+        <Box sx={{ mt: 4 }}>
+          <Backdrop
+            sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={loading}
+          >
+            <CircularProgress color="inherit" />
+          </Backdrop>
+          {!loading && formTemplates.length > 0 ? (
             <>
-              <Typography>No templates generated yet</Typography>
-              <Button variant="contained" component={Link} to={`/create`}>
-                Create now
-              </Button>
+              <Typography variant="h4">Form Templates</Typography>
+              <List>
+                {formTemplates.map((form) => (
+                  <Card
+                    key={form._id}
+                    elevation={2}
+                    sx={{ mb: 2, border: "1px solid #f0f0f0" }}
+                  >
+                    <ListItem
+                      button
+                      onClick={() => navigate(`/form/${form._id}`)}
+                    >
+                      <ListItemText
+                        primary={form.title}
+                        secondary={
+                          <>
+                            <Typography>{form.description}</Typography>
+                            <ul>
+                              {form.fields.map((field, index) => (
+                                <li key={index}>
+                                  {field.label} ({field.type})
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        }
+                      />
+                    </ListItem>
+                  </Card>
+                ))}
+              </List>
+            </>
+          ) : (
+            <>
+              {!loading && (
+                <>
+                  <Typography>No templates generated yet</Typography>
+                  <Button variant="contained" component={Link} to={`/create`}>
+                    Create now
+                  </Button>
+                </>
+              )}
             </>
           )}
-        </>
-      )}
-    </Box>
+        </Box>
+      </Container>
+    </>
   );
 };
 

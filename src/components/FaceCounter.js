@@ -102,19 +102,51 @@ const FaceCounter = ({ setFaceCount }) => {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      <video ref={videoRef} autoPlay muted />
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
       <canvas
         ref={canvasRef}
-        style={{ position: "absolute", top: 0, left: 0, zIndex: 2 }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 2,
+        }}
       />
-      <div>Number of faces detected: {count}</div>
+      <div
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 10,
+          zIndex: 3,
+          color: "white",
+        }}
+      >
+        Number of faces detected: {count}
+      </div>
       <button
         onClick={switchCamera}
         style={{ position: "absolute", bottom: 10, left: 10, zIndex: 3 }}
       >
         Switch Camera
       </button>
-      <div>Highest face count: {highestCount}</div>
+      <div
+        style={{
+          position: "absolute",
+          top: 10,
+          right: 10,
+          zIndex: 3,
+          color: "white",
+        }}
+      >
+        Highest face count: {highestCount}
+      </div>
     </div>
   );
 };
