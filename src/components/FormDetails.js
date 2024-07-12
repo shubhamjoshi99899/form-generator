@@ -24,7 +24,7 @@ const FormDetail = () => {
     const fetchForm = async () => {
       try {
         const { data } = await axios.get(
-          `https://form-generator-zeta.vercel.app/forms/${formId}`,
+          `https://form-generator-zeta.vercel.app/forms/66916d1e828033edb6b95a03`,
         );
         setForm(data);
         setResponses(
@@ -79,7 +79,10 @@ const FormDetail = () => {
   if (!form) return <Typography>Loading...</Typography>;
 
   return (
-    <Stack direction="column" sx={{ height: "100vh", overflow: "hidden" }}>
+    <Stack
+      direction="column"
+      sx={{ height: "100vh", overflow: "hidden", mb: 10 }}
+    >
       {form.fields.some(
         (field) => field.label === "face_count" || field.label === "Face Count",
       ) && (

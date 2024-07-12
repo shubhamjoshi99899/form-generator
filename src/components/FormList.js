@@ -25,7 +25,7 @@ const FormList = () => {
       setLoading(true);
       try {
         const res = await axios.get(
-          "https://form-generator-zeta.vercel.app/forms",
+          "https://form-generator-zeta.vercel.app/forms/user/66916c3e828033edb6b95a01",
         );
         setFormTemplates(res.data);
       } catch (error) {
