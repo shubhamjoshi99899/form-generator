@@ -21,6 +21,7 @@ import FormDetail from "./components/FormDetails";
 import PrefillForm from "./components/PrefillForm";
 import ResponsesList from "./components/ResponseList";
 import DisplayResponses from "./components/PrefillForm";
+import Collection from "./components/Collection";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,14 @@ const router = createBrowserRouter([
     element: (
       <div>
         <FormList />
+      </div>
+    ),
+  },
+  {
+    path: "/image-gallery",
+    element: (
+      <div>
+        <Collection />
       </div>
     ),
   },
